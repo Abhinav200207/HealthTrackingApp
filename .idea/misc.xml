@@ -3,7 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Abhinav/AndroidStudioProjects/HealthTrackingApp/app/src/main/res/drawable/bottom_nav_selector.xml" value="0.1" />
+        <entry key="..\:/Users/Abhinav/AndroidStudioProjects/HealthTrackingApp/app/src/main/res/drawable/ic_add_black.xml" value="0.1" />
         <entry key="..\:/Users/Abhinav/AndroidStudioProjects/HealthTrackingApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/Abhinav/AndroidStudioProjects/HealthTrackingApp/app/src/main/res/layout/fragment_run.xml" value="0.1" />
+        <entry key="..\:/Users/Abhinav/AndroidStudioProjects/HealthTrackingApp/app/src/main/res/layout/fragment_settings.xml" value="0.19655797101449277" />
+        <entry key="..\:/Users/Abhinav/AndroidStudioProjects/HealthTrackingApp/app/src/main/res/layout/fragment_statistics.xml" value="0.19655797101449277" />
+        <entry key="..\:/Users/Abhinav/AndroidStudioProjects/HealthTrackingApp/app/src/main/res/layout/fragment_tracking.xml" value="0.1" />
+        <entry key="..\:/Users/Abhinav/AndroidStudioProjects/HealthTrackingApp/app/src/main/res/layout/item_run.xml" value="0.1" />
       </map>
     </option>
   </component>
