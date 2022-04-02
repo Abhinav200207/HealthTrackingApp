@@ -9,12 +9,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.healthtrackingapp.R
 import com.example.healthtrackingapp.ui.viewmodel.MainViewModel
 import com.example.healthtrackingapp.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
-import com.example.healthtrackingapp.utils.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_run.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import android.Manifest
+import com.example.healthtrackingapp.utils.UserPermissionTracking
 
 @AndroidEntryPoint
 class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionCallbacks {
@@ -30,7 +30,7 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
     }
 
     private fun requestPermissions() {
-        if(TrackingUtility.hasLocationPermissions(requireContext())) {
+        if(UserPermissionTracking.hasLocationPermissions(requireContext())) {
             return
         }
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
