@@ -20,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_tracking.*
 import androidx.lifecycle.Observer
 import com.example.healthtrackingapp.services.Polyline
+import com.example.healthtrackingapp.utils.UserPermissionTracking
 
 @AndroidEntryPoint
 class TrackingFragment : Fragment(R.layout.fragment_tracking) {
@@ -28,8 +29,8 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
-
     private var map: GoogleMap? = null
+    private var currentTimeInMillis = 0L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,6 +55,12 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             pathPoints = it
             addLatestPolyline()
             moveCameraToUser()
+        })
+
+        UserTrackingService.timeRunInMillis.observe(viewLifecycleOwner, Observer {
+            currentTimeInMillis = it
+            val formattedTime = UserPermissionTracking.getFormattedStopWatchTime(currentTimeInMillis, true)
+            tvTimer.text = formattedTime
         })
     }
 
