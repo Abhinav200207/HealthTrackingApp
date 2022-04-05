@@ -10,12 +10,11 @@
         android:id="@+id/spFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:entries="@array/filter_options"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-<!--    android:entries="@array/filter_options"-->
 
     <TextView
         android:id="@+id/tvFilterBy"

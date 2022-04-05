@@ -24,3 +24,7 @@ object Constants {
     const val NOTIFICATION_CHANNEL_NAME = "Tracking"
     const val NOTIFICATION_ID = 1
 }
+
+enum class SortType {
+    DATE, RUNNING_TIME, AVG_SPEED, DISTANCE, CALORIES_BURNED
+}
