@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 import kotlin.math.round
 
 @AndroidEntryPoint
@@ -40,7 +41,10 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private var pathPoints = mutableListOf<Polyline>()
     private var map: GoogleMap? = null
     private var currentTimeInMillis = 0L
-    private var weight = 80f
+
+    @set:Inject
+    var weight = 80f
+
     private var menu: Menu? = null
 
     override fun onCreateView(
