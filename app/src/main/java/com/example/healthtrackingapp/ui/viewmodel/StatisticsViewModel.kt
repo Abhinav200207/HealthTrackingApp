@@ -8,4 +8,11 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class StatisticsViewModel @Inject constructor(val mainRepository: MainRepository) : ViewModel() {}
+class StatisticsViewModel @Inject constructor(val mainRepository: MainRepository) : ViewModel() {
+
+    val totalTimeRun = mainRepository.getTotalTime()
+    val totalDistance = mainRepository.getTotalDistanceCovered()
+    val totalCaloriesBurned = mainRepository.getTotalCaloriesBurned()
+    val totalAvgSpeed = mainRepository.getAvgSpeed()
+    val runsSortedByDate = mainRepository.getAllRunsOrderByDate()
+}
