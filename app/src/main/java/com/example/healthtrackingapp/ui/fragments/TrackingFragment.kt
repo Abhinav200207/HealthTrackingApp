@@ -24,6 +24,12 @@ import com.example.healthtrackingapp.utils.Constants.ACTION_STOP_SERVICE
 import com.example.healthtrackingapp.utils.UserPermissionTracking
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.navigation.fragment.findNavController
+import com.example.healthtrackingapp.database.Run
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
+import java.util.*
+import kotlin.math.round
 
 @AndroidEntryPoint
 class TrackingFragment : Fragment(R.layout.fragment_tracking) {
@@ -34,6 +40,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private var pathPoints = mutableListOf<Polyline>()
     private var map: GoogleMap? = null
     private var currentTimeInMillis = 0L
+    private var weight = 80f
     private var menu: Menu? = null
 
     override fun onCreateView(
@@ -50,6 +57,11 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         mapView.onCreate(savedInstanceState)
         btnToggleRun.setOnClickListener {
             toggleRun()
+        }
+
+        btnFinishRun.setOnClickListener {
+            zoomToSeeWholeTrack()
+            endRunAndSaveToDb()
         }
         mapView.getMapAsync {
             map = it
@@ -108,6 +120,45 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             btnToggleRun.text = "Stop"
             menu?.getItem(0)?.isVisible = true
             btnFinishRun.visibility = View.GONE
+        }
+    }
+
+    private fun zoomToSeeWholeTrack() {
+        val bounds = LatLngBounds.Builder()
+        for(polyline in pathPoints) {
+            for(pos in polyline) {
+                bounds.include(pos)
+            }
+        }
+
+        map?.moveCamera(
+            CameraUpdateFactory.newLatLngBounds(
+                bounds.build(),
+                mapView.width,
+                mapView.height,
+                (mapView.height * 0.05f).toInt()
+            )
+        )
+    }
+
+    private fun endRunAndSaveToDb() {
+        map?.snapshot { btm->
+            var distanceInMeters = 0
+            for(polyline in pathPoints) {
+                distanceInMeters += UserPermissionTracking.calculatePolylineLength(polyline).toInt()
+            }
+            val avgSpeed = round((distanceInMeters / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f
+            val dateTimestamp = Calendar.getInstance().timeInMillis
+            val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
+            val run = Run(btm, dateTimestamp, avgSpeed, distanceInMeters, currentTimeInMillis, caloriesBurned)
+            Timber.d(btm.toString())
+            viewModel.insertRun(run)
+            Snackbar.make(
+                requireActivity().findViewById(R.id.rootView),
+                "Run saved successfully",
+                Snackbar.LENGTH_LONG
+            ).show()
+            stopRun()
         }
     }
 
